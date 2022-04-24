@@ -9,9 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.8.8",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@types/mapbox-gl": "^2.7.0",
+    "framer-motion": "^6",
+    "mapbox-gl": "^2.8.2",
     "next": "12.1.5",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "scrollama": "^3.1.1"
   },
   "devDependencies": {
     "@types/node": "17.0.24",
