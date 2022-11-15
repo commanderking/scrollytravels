@@ -1,23 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import scrollama from "scrollama";
+import {
+  Chapter,
+  Config,
+  layerTypes,
+  LayerType,
+  ChapterEffect,
+} from "constants/mapboxDemo";
 
-const layerTypes = {
-  fill: ["fill-opacity"],
-  line: ["line-opacity"],
-  circle: ["circle-opacity", "circle-stroke-opacity"],
-  symbol: ["icon-opacity", "text-opacity"],
-  raster: ["raster-opacity"],
-  "fill-extrusion": ["fill-extrusion-opacity"],
-};
-
-const alignments = {
-  left: "lefty",
-  center: "centered",
-  right: "righty",
-};
-
-const transformRequest = (url) => {
+const transformRequest = (url: string) => {
   const hasQuery = url.indexOf("?") !== -1;
   const suffix = hasQuery
     ? "&pluginName=journalismScrollytelling"
@@ -27,23 +19,22 @@ const transformRequest = (url) => {
   };
 };
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentChapter: this.props.config.chapters[0],
-    };
-    // this.setState = this.setState.bind(this);
-  }
+type Props = {
+  config: Config;
+};
 
-  componentDidMount() {
-    const { config } = this.props;
+const MapboxContainer = ({ config }: Props) => {
+  const [currentChapter, setCurrentChapter] = useState(config.chapters[0]);
+
+  const mapContainerRef = useRef(null);
+
+  useEffect(() => {
     const mapStart = config.chapters[0].location;
 
     mapboxgl.accessToken = config.accessToken;
 
     const map = new mapboxgl.Map({
-      container: this.mapContainer,
+      container: mapContainerRef.current || "",
       style: config.style,
       center: mapStart.center,
       zoom: mapStart.zoom,
@@ -57,20 +48,20 @@ class App extends Component {
       marker.setLngLat(mapStart.center).addTo(map);
     }
 
-    function getLayerPaintType(layer) {
-      var layerType = map.getLayer(layer).type;
+    function getLayerPaintType(layer: LayerType) {
+      const layerType = map.getLayer(layer).type;
+      // @ts-ignore - should have a more complete set of layerTypes
       return layerTypes[layerType];
     }
 
-    function setLayerOpacity(layer) {
+    function setLayerOpacity(layer: ChapterEffect) {
       var paintProps = getLayerPaintType(layer.layer);
-      paintProps.forEach(function (prop) {
+
+      console.log({ paintProps });
+      paintProps.forEach(function (prop: any) {
         map.setPaintProperty(layer.layer, prop, layer.opacity);
       });
     }
-
-    const setState = this.setState.bind(this);
-
     // instantiate the scrollama
     const scroller = scrollama();
 
@@ -84,9 +75,13 @@ class App extends Component {
         })
         .onStepEnter((response) => {
           const chapter = config.chapters.find(
-            (chap) => chap.id === response.element.id
+            (chap: Chapter) => chap.id === response.element.id
           );
-          setState({ currentChapter: chapter });
+
+          if (!chapter) {
+            return;
+          }
+          setCurrentChapter(chapter);
           map.flyTo(chapter.location);
           if (config.showMarkers) {
             marker.setLngLat(chapter.location.center);
@@ -97,8 +92,12 @@ class App extends Component {
         })
         .onStepExit((response) => {
           var chapter = config.chapters.find(
-            (chap) => chap.id === response.element.id
+            (chap: Chapter) => chap.id === response.element.id
           );
+
+          if (!chapter) {
+            return;
+          }
           if (chapter.onChapterExit.length > 0) {
             chapter.onChapterExit.forEach(setLayerOpacity);
           }
@@ -106,49 +105,55 @@ class App extends Component {
     });
 
     window.addEventListener("resize", scroller.resize);
-  }
+  }, [mapContainerRef]);
 
-  render() {
-    const { config } = this.props;
-    console.log({ config });
-    const theme = config.theme;
-    const currentChapterID = this.state.currentChapter.id;
-    return (
-      <div>
-        <div
-          ref={(el) => (this.mapContainer = el)}
-          className="absolute top right left bottom"
-        />
-        <div id="story">
-          {config.title && (
-            <div id="header" className={theme}>
-              <h1>{config.title}</h1>
-              {config.subtitle && <h2>{config.subtitle}</h2>}
-              {config.byline && <p>{config.byline}</p>}
-            </div>
-          )}
-          <div id="features" className={alignments[config.alignment]}>
-            {config.chapters.map((chapter) => (
-              <Chapter
-                key={chapter.id}
-                theme={theme}
-                {...chapter}
-                currentChapterID={currentChapterID}
-              />
-            ))}
+  const theme = config.theme;
+  const currentChapterID = currentChapter.id;
+
+  return (
+    <div>
+      <div ref={mapContainerRef} className="absolute top right left bottom" />
+      <div id="story">
+        {config.title && (
+          <div id="header" className={theme}>
+            <h1>{config.title}</h1>
+            {config.subtitle && <h2>{config.subtitle}</h2>}
+            {config.byline && <p>{config.byline}</p>}
           </div>
-          {config.footer && (
-            <div id="footer" className={theme}>
-              <p>{config.footer}</p>
-            </div>
-          )}
+        )}
+        <div id="features">
+          {config.chapters.map((chapter) => (
+            <ChapterComponent
+              key={chapter.id}
+              theme={theme}
+              {...chapter}
+              currentChapterID={currentChapterID}
+            />
+          ))}
         </div>
+        {config.footer && (
+          <div id="footer" className={theme}>
+            <p>{config.footer}</p>
+          </div>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-function Chapter({ id, theme, title, image, description, currentChapterID }) {
+type ChapterProps = Chapter & {
+  theme: string;
+  currentChapterID: string;
+};
+
+const ChapterComponent = ({
+  id,
+  theme,
+  title,
+  image,
+  description,
+  currentChapterID,
+}: ChapterProps) => {
   const classList = id === currentChapterID ? "step active" : "step";
 
   return (
@@ -160,6 +165,6 @@ function Chapter({ id, theme, title, image, description, currentChapterID }) {
       </div>
     </div>
   );
-}
+};
 
-export default App;
+export default MapboxContainer;

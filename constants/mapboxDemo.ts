@@ -1,8 +1,71 @@
-export const config = {
+export const layerTypes = {
+  fill: ["fill-opacity"],
+  line: ["line-opacity"],
+  circle: ["circle-opacity", "circle-stroke-opacity"],
+  symbol: ["icon-opacity", "text-opacity"],
+  raster: ["raster-opacity"],
+  "fill-extrusion": ["fill-extrusion-opacity"],
+} as const;
+
+export type LayerType =
+  | "symbol"
+  | "background"
+  | "circle"
+  | "fill-extrusion"
+  | "fill"
+  | "heatmap"
+  | "hillshade"
+  | "line"
+  | "raster"
+  | "custom"
+  | "sky";
+
+export const alignments = {
+  left: "lefty",
+  center: "centered",
+  right: "righty",
+} as const;
+
+type Alignment = keyof typeof alignments;
+
+export type ChapterEffect = {
+  layer: string;
+  opacity: number;
+};
+
+export type Chapter = {
+  id: string;
+  alignment: Alignment;
+  title: string;
+  image: string;
+  description: string;
+  location: {
+    center: [number, number];
+    zoom: number;
+    pitch: number;
+    bearing: number;
+  };
+  onChapterEnter: ChapterEffect[];
+  onChapterExit: ChapterEffect[];
+};
+
+export type Config = {
+  style: string;
+  accessToken: string;
+  showMarkers: boolean;
+  theme: string;
+  title: string;
+  subtitle: string;
+  byline: string;
+  footer: string;
+  chapters: Chapter[];
+};
+
+export const config: Config = {
   style: "mapbox://styles/branigan/cjzsvonse027m1co4nkxp13b3",
   accessToken:
     "pk.eyJ1IjoibWJ4c29sdXRpb25zIiwiYSI6ImNrMm01aG9hdTBlZGwzbXQ1ZXVrNHNmejAifQ.QHQA0N6XPWddCXtvoODHZg",
-  showMarkers: false,
+  showMarkers: true,
   theme: "light",
   title: "One day In Toledo",
   subtitle: "",
