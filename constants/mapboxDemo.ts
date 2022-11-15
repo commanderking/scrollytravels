@@ -7,18 +7,18 @@ export const layerTypes = {
   "fill-extrusion": ["fill-extrusion-opacity"],
 } as const;
 
-export type LayerType =
-  | "symbol"
-  | "background"
-  | "circle"
-  | "fill-extrusion"
-  | "fill"
-  | "heatmap"
-  | "hillshade"
-  | "line"
-  | "raster"
-  | "custom"
-  | "sky";
+export type LayerType = string;
+// | "symbol"
+// | "background"
+// | "circle"
+// | "fill-extrusion"
+// | "fill"
+// | "heatmap"
+// | "hillshade"
+// | "line"
+// | "raster"
+// | "custom"
+// | "sky";
 
 export const alignments = {
   left: "lefty",
@@ -29,7 +29,7 @@ export const alignments = {
 type Alignment = keyof typeof alignments;
 
 export type ChapterEffect = {
-  layer: string;
+  layer: LayerType;
   opacity: number;
 };
 
