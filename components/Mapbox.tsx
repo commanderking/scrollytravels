@@ -48,19 +48,19 @@ const MapboxContainer = ({ config }: Props) => {
       marker.setLngLat(mapStart.center).addTo(map);
     }
 
-    function getLayerPaintType(layer: LayerType) {
-      const layerType = map.getLayer(layer).type;
-      // @ts-ignore - should have a more complete set of layerTypes
-      return layerTypes[layerType];
-    }
+    // function getLayerPaintType(layer: LayerType) {
+    //   console.log({ layer });
+    //   const layerType = map.getLayer(layer).type;
+    //   // @ts-ignore - should have a more complete set of layerTypes
+    //   return layerTypes[layerType];
+    // }
 
     function setLayerOpacity(layer: ChapterEffect) {
-      var paintProps = getLayerPaintType(layer.layer);
-
-      console.log({ paintProps });
-      paintProps.forEach(function (prop: any) {
-        map.setPaintProperty(layer.layer, prop, layer.opacity);
-      });
+      // var paintProps = getLayerPaintType(layer.layer);
+      // console.log({ paintProps });
+      // paintProps.forEach(function (prop: any) {
+      //   map.setPaintProperty(layer.layer, prop, layer.opacity);
+      // });
     }
     // instantiate the scrollama
     const scroller = scrollama();

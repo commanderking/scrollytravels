@@ -62,26 +62,27 @@ export type Config = {
 };
 
 export const config: Config = {
-  style: "mapbox://styles/branigan/cjzsvonse027m1co4nkxp13b3",
+  style: "mapbox://styles/mapbox/streets-v11",
   accessToken:
     "pk.eyJ1IjoibWJ4c29sdXRpb25zIiwiYSI6ImNrMm01aG9hdTBlZGwzbXQ1ZXVrNHNmejAifQ.QHQA0N6XPWddCXtvoODHZg",
   showMarkers: true,
   theme: "light",
-  title: "One day In Toledo",
+  title: "Tea Tour of Taipei",
   subtitle: "",
   byline: "",
   footer: "",
+
   chapters: [
     {
       id: "phl",
       alignment: "right",
-      title: "Philadelphia Bicycle Infrastructure",
+      title: "Jassid Tea House",
       image: "",
       description:
         "Getting around Philadelphia on two wheels is fast, fun, and cheap. As a typical East Coast large city, the urban core is dense, so there is a lot within reach of a 15 minute ride... even mountain bike trails. Paired with the public transit infrastructure, cycling can be more efficient and much less expensive than driving (and parking) a car.",
       location: {
-        center: [-4.017, 39.861],
-        zoom: 15.83,
+        center: [121.555204, 25.038152],
+        zoom: 12.83,
         pitch: 0.0,
         bearing: 0.0,
       },
@@ -98,39 +99,19 @@ export const config: Config = {
         },
       ],
     },
-    {
-      id: "bike-lanes",
-      alignment: "right",
-      title: "Bike Lanes",
-      image: "",
-      description:
-        "Philadelphia has XX miles of bike lanes, XX miles of which are protected. Drivers are getting more used to sharing the road, but ride defensively.",
-      location: {
-        center: [-75.13901, 39.97085],
-        zoom: 11.62,
-        pitch: 55.5,
-        bearing: -7.2,
-      },
-      onChapterEnter: [
-        {
-          layer: "phl-bike-network",
-          opacity: 1,
-        },
-      ],
-      onChapterExit: [],
-    },
+
     {
       id: "indego",
       alignment: "right",
-      title: "Indego Bike Share",
+      title: "Stop By Teahouse ",
       image: "",
       description:
         "Indego has been operating in Philadelphia since 20XX. The system initally was focused on Center City, but has expanded service to neighboring areas to support equitable mobility options to the city's residents.",
       location: {
-        center: [-75.16468, 39.94503],
-        zoom: 13.15,
-        pitch: 60.0,
-        bearing: -16.8,
+        center: [121.529303, 25.030229],
+        zoom: 12.83,
+        pitch: 0.0,
+        bearing: 0.0,
       },
       onChapterEnter: [
         {
