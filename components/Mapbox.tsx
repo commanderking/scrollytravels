@@ -43,24 +43,27 @@ const MapboxContainer = ({ config }: Props) => {
       transformRequest: transformRequest,
     });
 
-    const marker = new mapboxgl.Marker();
+    new mapboxgl.Marker().setLngLat(mapStart.center).addTo(map);
+
     if (config.showMarkers) {
-      marker.setLngLat(mapStart.center).addTo(map);
+      console.log({ center: mapStart.center });
+      new mapboxgl.Marker().setLngLat(mapStart.center).addTo(map);
     }
 
-    // function getLayerPaintType(layer: LayerType) {
-    //   console.log({ layer });
-    //   const layerType = map.getLayer(layer).type;
-    //   // @ts-ignore - should have a more complete set of layerTypes
-    //   return layerTypes[layerType];
-    // }
+    function getLayerPaintType(layer: LayerType) {
+      const layerType = map.getLayer(layer) && map.getLayer(layer).type;
+      // @ts-ignore - should have a more complete set of layerTypes
+      return layerTypes[layerType];
+    }
 
     function setLayerOpacity(layer: ChapterEffect) {
-      // var paintProps = getLayerPaintType(layer.layer);
-      // console.log({ paintProps });
-      // paintProps.forEach(function (prop: any) {
-      //   map.setPaintProperty(layer.layer, prop, layer.opacity);
-      // });
+      var paintProps = getLayerPaintType(layer.layer);
+
+      if (paintProps) {
+        paintProps.forEach(function (prop: any) {
+          map.setPaintProperty(layer.layer, prop, layer.opacity);
+        });
+      }
     }
     // instantiate the scrollama
     const scroller = scrollama();
@@ -83,8 +86,10 @@ const MapboxContainer = ({ config }: Props) => {
           }
           setCurrentChapter(chapter);
           map.flyTo(chapter.location);
+
+          console.log(config.showMarkers);
           if (config.showMarkers) {
-            marker.setLngLat(chapter.location.center);
+            new mapboxgl.Marker().setLngLat(mapStart.center).addTo(map);
           }
           if (chapter.onChapterEnter.length > 0) {
             chapter.onChapterEnter.forEach(setLayerOpacity);
