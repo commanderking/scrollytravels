@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import scrollama from "scrollama";
 import {
@@ -107,6 +107,40 @@ const MapboxContainer = ({ config }: Props) => {
             chapter.onChapterExit.forEach(setLayerOpacity);
           }
         });
+
+      map.addSource("places", {
+        // This GeoJSON contains features that include an "icon"
+        // property. The value of the "icon" property corresponds
+        // to an image in the Mapbox Streets style's sprite.
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              properties: {
+                description:
+                  '<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+                icon: "theatre",
+              },
+              geometry: {
+                type: "Point",
+                coordinates: [121.555204, 25.038152],
+              },
+            },
+          ],
+        },
+      });
+
+      map.addLayer({
+        id: "places",
+        type: "symbol",
+        source: "places",
+        layout: {
+          "icon-image": ["get", "icon"],
+          "icon-allow-overlap": true,
+        },
+      });
     });
 
     window.addEventListener("resize", scroller.resize);

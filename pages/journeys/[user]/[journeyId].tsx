@@ -1,12 +1,11 @@
-import { Box } from "@chakra-ui/react";
 import { config } from "constants/mapboxDemo";
 import Mapbox from "components/Mapbox";
 
 const JourneyPage = () => {
   return (
-    <Box>
+    <div>
       <Mapbox config={config} />
-    </Box>
+    </div>
   );
 };
 
