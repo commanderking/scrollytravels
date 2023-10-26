@@ -31,6 +31,12 @@ const places: Place[] = [
     title: "Stop By Teahouse",
     coordinates: [121.52922476548716, 25.0302556757552],
   },
+  {
+    id: "lcg",
+    description: "Old tea house",
+    title: "老茶罐 (Old Tea Can)",
+    coordinates: [121.52963879264816, 25.030005491295665],
+  },
 ];
 
 type MarkerProps = {
@@ -85,16 +91,13 @@ const MapboxDemo = () => {
     };
 
     places.forEach((place) => {
-      // Create a React ref
       const ref = createRef<HTMLElement>();
       // @ts-ignore - Create a new DOM node and save it to the React ref
       ref.current = document.createElement("div");
-      // Render a Marker Component on our new DOM node
       createRoot(ref.current).render(
         <Marker onClick={handleClick} place={place} />
       );
 
-      // Create a Mapbox Marker at our new DOM node
       new mapboxgl.Marker(ref.current).setLngLat(place.coordinates).addTo(map);
     });
 
@@ -149,28 +152,6 @@ const MapboxDemo = () => {
             );
           })}
         </div>
-        {/* {config.title && (
-          <div id="header" className={theme}>
-            <h1>{config.title}</h1>
-            {config.subtitle && <h2>{config.subtitle}</h2>}
-            {config.byline && <p>{config.byline}</p>}
-          </div>
-        )}
-        <div id="features">
-          {config.chapters.map((chapter) => (
-            <ChapterComponent
-              key={chapter.id}
-              theme={theme}
-              {...chapter}
-              currentChapterID={currentChapterID}
-            />
-          ))}
-        </div>
-        {config.footer && (
-          <div id="footer" className={theme}>
-            <p>{config.footer}</p>
-          </div>
-        )} */}
       </div>
     </div>
   );
