@@ -11,7 +11,7 @@ const places: Place[] = [
   {
     id: "jth",
     description:
-      'Named after the tea jassid, an insect whose bites provide the fruity notes of Oriental Beauty and Red Oolong, Jassid Tea House offers a large selection of Taiwanese teas. Freshly brewed teas are affordably priced, making it easy to sample multiple tea types with a small group of friends. Each tea can be re-steeped at least once, encouraging long conversations with friends or a lazy day reading a new book. The tea drinking experience here is best summarized by a simple piece of Chinese calligraphy hanging on the teahouse walls, 今天無事, or "Nothing to do today"',
+      'Named after the tea jassid, an insect whose bites provide the fruity notes of Oriental Beauty and Red Oolong, Jassid Tea House offers a large selection of Taiwanese teas. Freshly brewed teas are often half the price of teahouses in other areas of Taipei, making it easy to sample multiple tea types with a small group of friends. Each tea can be re-steeped at least once, encouraging long conversations with friends. The tea drinking experience here is best summarized by a simple piece of Chinese calligraphy hanging on the teahouse walls, 今天無事, or "Nothing to do today"',
     website: "https://www.jassidteahouse.com/",
     googleMapLink: "https://maps.app.goo.gl/aAacgAD8R1RXkKby9",
     title: "Jassid Tea House",
