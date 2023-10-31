@@ -16,7 +16,8 @@ type Props = {
 const ScrollymapContainer = ({ config }: Props) => {
   const { places } = config;
   const mapContainerRef = useRef(null);
-  const [currentChapter, setCurrentChapter] = useState(places[0]);
+  const [currentPlace, setCurrentPlace] = useState(places[0]);
+  const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
   useEffect(() => {
     const accessToken =
@@ -24,7 +25,7 @@ const ScrollymapContainer = ({ config }: Props) => {
 
     mapboxgl.accessToken = accessToken;
 
-    const map = new mapboxgl.Map({
+    const initialMap = new mapboxgl.Map({
       container: mapContainerRef.current || "",
       style: "mapbox://styles/mapbox/streets-v11",
       center: [121.555204, 25.038152],
@@ -34,23 +35,13 @@ const ScrollymapContainer = ({ config }: Props) => {
       // transformRequest: transformRequest,
     });
 
-    const handleClick = (coordinates: [number, number]) => {
-      map.flyTo({
-        center: coordinates,
-      });
-    };
+    setMap(initialMap);
+  }, [mapContainerRef]);
 
-    places.forEach((place) => {
-      const ref = createRef<HTMLElement>();
-      // @ts-ignore - Create a new DOM node and save it to the React ref
-      ref.current = document.createElement("div");
-      createRoot(ref.current).render(
-        <Marker onClick={handleClick} place={place} />
-      );
-
-      new mapboxgl.Marker(ref.current).setLngLat(place.coordinates).addTo(map);
-    });
-
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
     map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
     const scroller = scrollama();
@@ -70,13 +61,50 @@ const ScrollymapContainer = ({ config }: Props) => {
           if (!place) {
             return;
           }
-          setCurrentChapter(place);
+          setCurrentPlace(place);
           map.flyTo({
             center: place.coordinates,
           });
         });
     });
-  }, [mapContainerRef]);
+  }, [map]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+    const handleClick = (coordinates: [number, number]) => {
+      map.flyTo({
+        center: coordinates,
+      });
+    };
+
+    const markers = places.map((place) => {
+      const ref = createRef<HTMLElement>();
+      // @ts-ignore - Create a new DOM node and save it to the React ref
+      ref.current = document.createElement("div");
+      createRoot(ref.current).render(
+        <Marker
+          onClick={handleClick}
+          place={place}
+          currentPlace={currentPlace}
+        />
+      );
+
+      const marker = new mapboxgl.Marker(ref.current)
+        .setLngLat(place.coordinates)
+        .addTo(map);
+
+      return marker;
+    });
+
+    // Removes all previous markers if currentPlace changes
+    return () => {
+      markers.map((marker) => {
+        marker.remove();
+      });
+    };
+  }, [map, currentPlace]);
 
   return (
     <div>
@@ -97,7 +125,7 @@ const ScrollymapContainer = ({ config }: Props) => {
                 key={place.title}
                 title={place.title}
                 description={place.description}
-                currentChapterID={currentChapter.id}
+                currentChapterID={currentPlace.id}
               />
             );
           })}
