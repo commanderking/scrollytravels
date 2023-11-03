@@ -11,7 +11,7 @@ const places: Place[] = [
   {
     id: "jth",
     description:
-      'Named after the tea jassid, an insect whose bites provide the fruity notes of Oriental Beauty and Red Oolong, Jassid Tea House offers a large selection of Taiwanese teas. Freshly brewed teas are often half the price of teahouses in other areas of Taipei, making it easy to sample multiple tea types with a small group of friends. Each tea can be re-steeped at least once, encouraging long conversations with friends. The tea drinking experience here is best summarized by a simple piece of Chinese calligraphy hanging on the teahouse walls, 今天無事, or "Nothing to do today"',
+      'Named after the tea jassid, an insect whose bites provide the fruity notes of Oriental Beauty and Red Oolong, Jassid Tea House offers a large selection of Taiwanese teas. Freshly brewed loose-leaf teas are often half the price of teahouses in other areas of Taipei, making it easy to sample multiple tea types with a small group of friends. Each tea can be re-steeped at least once, encouraging long conversations with friends. The tea drinking experience here is best summarized by a simple piece of Chinese calligraphy hanging on the teahouse walls, 今天無事, or "Nothing to do today"',
     website: "https://www.jassidteahouse.com/",
     googleMapLink: "https://maps.app.goo.gl/aAacgAD8R1RXkKby9",
     title: "Jassid Tea House",
@@ -46,12 +46,24 @@ const places: Place[] = [
   },
 ];
 
-export const config = {
-  title: "Taiwan Teahouses",
-  places,
-};
-
 export type ScrollyMapConfig = {
   title: string;
+  description: string;
   places: Place[];
+};
+
+export const config = {
+  title: "Taiwan Teahouses",
+  description: `  
+  Many flock to Taipei’s myriad bubble tea shops, but few slow down to enjoy a freshly steeped cup of Taiwanese loose-leaf tea. Unlike bubble tea, whose tea flavors can be masked by a heavy dose of milk, sugar, and dizzying array of toppings, loose-leaf tea extracts all its natural, aromatic flavors by simply infusing premium, hand-picked tea leaves in hot water.
+
+    Folks used to over-brewed tea bag tea may find the range of flavors released by premium loose-leaf tea surprising. Taiwan’s ruby red tea is classified as a black tea, but releases sweeter and fruitier flavors than its western counterparts. High mountain oolong is floral and creamy. Oriental Beauty and red oolong, blessed by the bites of Jassid tea bugs, release a distinctive honey flavor. Roasted teas offer a toasty flavor perfect for keeping warm in the winter months. 
+    
+    To extract the best flavors, most teahouses prepare tea following the traditional gongfu style. Compared with western-style brewing, this process uses a smaller clay teapot, a large amount of tea leaves, and shorter steeping times. Each steeping is savored on its own, and premium tea leaves can endure five or more steepings before its flavor begins to diminish. Tea enthusiasts enjoy tasting the different aromatics that the tea leaves release with each steeping. 
+    
+    Given the lengthy process, some teahouses have streamlined the ritual, combining multiple steepings into a single cup for immediate consumption. Other teahouses offer aspiring tea enthusiasts the tools and guidance needed to embark on their own tea steeping journey. Though daunting at first, steeping high quality leaves is a forgiving process. The quality of tea leaves can mask any mistakes one might make as a novice tea steeper. And while tea aficionados enjoy debating the ideal water temperature, brewing time, and steeping vessels to extract the best flavors, much of the joy in tea drinking is a journey of self-discovery - finding one’s favorite teas and perfecting the processes that best extract its flavors. 
+    
+    Because tea steeping is a relaxed process, teahouses offer a variety of environments. Some are more suitable for enjoying tea solo while others are conducive to sampling a variety of teas over a lively conversation. Regardless of one’s preference, these are a few of the best spaces to relax, savor a cup of loose-leaf tea, and begin a journey into Taiwan’s loose-leaf tea. 
+  `,
+  places,
 };

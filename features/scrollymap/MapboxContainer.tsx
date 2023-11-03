@@ -115,7 +115,8 @@ const ScrollymapContainer = ({ config }: Props) => {
       />
       <div id="story" className="w-6/12">
         <div id="header" className="light">
-          {config.title}
+          <h2 className="text-3xl">{config.title}</h2>
+          <p>{config.description}</p>
         </div>
         <div className="pt-[10vh] pb-[10vh]">
           {places.map((place) => {
